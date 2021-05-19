@@ -1,0 +1,19 @@
+version: "3.8"
+
+services:
+    db:
+        image: tobi312/rpi-mariadb
+        container_name: mariadb.local
+        environment:
+            MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+        ports:
+            - 3307:3306
+        volumes:
+            - /data/mariadb:/var/lib/mysql
+        networks:
+            - shared
+
+networks:
+    shared:
+        external:
+            name: shared
