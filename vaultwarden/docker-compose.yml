@@ -1,11 +1,11 @@
-version: "3.8"
+version: "3.3"
 
 services:
-  bitwardenrs:
-    image: bitwardenrs/server:latest
-    container_name: "bitwardenrs"
+  vaultwarden:
+    image: vaultwarden/server:latest
+    container_name: "vaultwarden"
     volumes:
-      - bitwarden:/data/
+      - vaultwarden:/data/
     ports:
       - 8010:80
     environment:
@@ -13,6 +13,5 @@ services:
     restart: unless-stopped
 
 volumes:
-  bitwarden:
+  vaultwarden:
     external: true
-    name: bitwarden
