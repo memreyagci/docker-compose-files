@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  seafile:
+    image: franchetti/seafile-arm
+    container_name: "seafile_app"
+    restart: always
+    environment:
+      - PUID=1000
+      - PGID=1000
+        #      - SERVER_IP=cloud.meyagci.xyz
+        #      - SEAFILE_SERVER_HOSTNAME=cloud.meyagci.xyz
+        #      - FILE_SERVER_ROOT=${FILE_SERVER_ROOT}
+        #      - ENABLE_TLS=1
+      - SEAFILE_ADMIN_EMAIL=${SEAFILE_ADMIN_EMAIL}
+      - SEAFILE_ADMIN_PASSWORD=${SEAFILE_ADMIN_PASSWORD}
+      - MYSQL_HOST=db
+      - MYSQL_USER_PASSWD=${DB_ROOT_PASSWD}
+      - MYSQL_ROOT_PASSWD=${DB_ROOT_PASSWD}
+    ports:
+      - 8030:8000
+      - 8031:8082
+    volumes:
+      - seafile_app:/shared
+    depends_on:
+      - db
+
+  db:
+    image: tobi312/rpi-mariadb
+    container_name: "seafile_db"
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWD}
+    volumes:
+      - seafile_db:/var/lib/mysql
+
+volumes:
+  seafile_app:
+    external: true
+  seafile_db:
+    external: true
