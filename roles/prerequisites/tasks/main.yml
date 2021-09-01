@@ -1,0 +1,31 @@
+---
+- name: Update & upgrade packages
+  become: true
+  apt:
+    update_cache: yes
+    upgrade: yes
+
+- name: Install apt-transport-https
+  apt:
+    name: apt-transport-https
+    state: present
+
+- name: Install ca-certificates
+  apt:
+    name: ca-certificates
+    state: present
+
+- name: Install curl
+  apt:
+    name: curl
+    state: present
+
+- name: Install gnupg
+  apt:
+    name: gnupg
+    state: present
+
+- name: Install lsb-release
+  apt:
+    name: lsb-release
+    state: present

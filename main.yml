@@ -1,0 +1,11 @@
+---
+- hosts: servers
+  #remote_user: ansible
+  become: yes
+    # become_method: sudo
+  roles:
+    - prerequisites
+    - docker
+    - packages
+    - deploy_containers
+
