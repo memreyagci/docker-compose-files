@@ -1,5 +1,5 @@
 ---
-- name: Create a traefik container
+- name: Create a Traefik container
   community.docker.docker_container:
     name: 'traefik'
     image: 'traefik:v2.5'
@@ -18,7 +18,7 @@
       - "letsencrypt:/letsencrypt"
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
 
-- name: Create a baikal container
+- name: Create a Baikal container
   community.docker.docker_container:
     name: 'baikal'
     image: 'ckulka/baikal:latest'
@@ -33,7 +33,7 @@
       - "baikal_config:/var/www/baikal/config"
       - "baikal_data:/var/www/baikal/Specific"
       
-- name: Create a ghost container
+- name: Create a Ghost container
   community.docker.docker_container:
     name: 'ghost'
     image: 'ghost'
@@ -60,7 +60,7 @@
     env:
       url: "https://{{ GHOST_DOMAIN }}"
 
-- name: Create a vaultwarden container
+- name: Create a Vaultwarden container
   community.docker.docker_container:
     name: 'vaultwarden'
     image: 'vaultwarden/server:latest'
