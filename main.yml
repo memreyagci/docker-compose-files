@@ -8,4 +8,5 @@
     - docker
     - packages
     - deploy_containers
-
+    - users
+    - dotfiles

@@ -13,3 +13,8 @@
   apt:
     name: rsync
     state: present
+
+- name: Install stow
+  apt:
+    name: stow
+    state: present
