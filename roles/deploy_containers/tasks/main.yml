@@ -41,9 +41,20 @@
     restart_policy: unless-stopped
     labels:
       traefik.enable: "true"
-      traefik.http.routers.ghost.rule: "Host(`{{ GHOST_DOMAIN }}`)"
+      traefik.http.routers.ghost.rule: "Host(`{{ GHOST_DOMAIN }}`) || Host(`www.{{ GHOST_DOMAIN }}`)"
       traefik.http.routers.ghost.entrypoints: "websecure"
       traefik.http.routers.ghost.tls.certresolver: "myresolver"
+
+      traefik.http.middlewares.non-www-to-www-redirect.redirectregex.regex: "^https?://{{ GHOST_DOMAIN }}"
+      traefik.http.middlewares.non-www-to-www-redirect.redirectregex.replacement: "https://www.{{ GHOST_DOMAIN }}"
+
+      traefik.http.middlewares.github-redirect.redirectregex.regex: "^https?://www.{{ GHOST_DOMAIN }}/contact/github"
+      traefik.http.middlewares.github-redirect.redirectregex.replacement: "{{ GITHUB_URL }}"
+
+      traefik.http.middlewares.linkedin-redirect.redirectregex.regex: "^https?://www.{{ GHOST_DOMAIN }}/contact/linkedin"
+      traefik.http.middlewares.linkedin-redirect.redirectregex.replacement: "{{ LINKEDIN_URL }}"
+
+      traefik.http.routers.ghost.middlewares: "non-www-to-www-redirect, github-redirect, linkedin-redirect"
     volumes:
       - "ghost:/var/lib/ghost/content"
     env:
