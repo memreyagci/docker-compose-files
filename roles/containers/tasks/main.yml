@@ -1,0 +1,9 @@
+---
+
+- include: "{{ item }}"
+  loop:
+    - traefik.yml
+    - baikal.yml
+    - ghost.yml
+    - vaultwarden.yml
+    - turtl.yml

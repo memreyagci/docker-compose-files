@@ -1,0 +1,19 @@
+---
+
+- name: Create a Vaultwarden container
+  community.docker.docker_container:
+    name: 'vaultwarden'
+    image: 'vaultwarden/server:latest'
+    recreate: true
+    restart_policy: unless-stopped
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.vaultwarden.rule: "Host(`{{ VAULTWARDEN_DOMAIN }}`)"
+      traefik.http.routers.vaultwarden.entrypoints: "websecure"
+      traefik.http.routers.vaultwarden.tls.certresolver: "myresolver"
+    volumes:
+      - "vaultwarden:/data/"
+    env:
+      ADMIN_TOKEN: "{{VAULTWARDEN_ADMIN_TOKEN}}"
+
+

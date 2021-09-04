@@ -1,0 +1,21 @@
+---
+- name: Create a Traefik container
+  community.docker.docker_container:
+    name: 'traefik'
+    image: 'traefik:v2.5'
+    recreate: true
+    restart_policy: unless-stopped
+    published_ports:
+      - "8080:8080"
+      - "443:443"
+    command:
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.websecure.address=:443"
+      - "--certificatesresolvers.myresolver.acme.tlschallenge=true"
+      - "--certificatesresolvers.myresolver.acme.email={{ ACME_EMAIL }}"
+      - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
+    volumes:
+      - "letsencrypt:/letsencrypt"
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
