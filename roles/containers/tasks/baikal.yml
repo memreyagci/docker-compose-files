@@ -14,4 +14,3 @@
     volumes:
       - "baikal_config:/var/www/baikal/config"
       - "baikal_data:/var/www/baikal/Specific"
-
