@@ -9,7 +9,7 @@
 
 - name: Create a Turtl container
   community.docker.docker_container:
-    name: 'turtle-server'
+    name: 'turtl-server'
     image: 'turtl/server'
     recreate: true
     restart_policy: unless-stopped
@@ -29,7 +29,7 @@
 
 - name: Create a PostgreSQL container for Turtl
   community.docker.docker_container:
-    name: 'turtle-db'
+    name: 'turtl-db'
     image: 'postgres:11-alpine'
     recreate: true
     volumes:
