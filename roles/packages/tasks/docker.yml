@@ -3,6 +3,7 @@
 - name: Add Docker’s official GPG key
   ansible.builtin.apt_key:
     url: https://download.docker.com/linux/ubuntu/gpg
+    keyring: /usr/share/keyrings/docker-archive-keyring.gpg
     state: present
 
 - name: Add stable Docker repository
@@ -11,13 +12,17 @@
     state: present
 
 - name: Install Docker Engine
-  apt:
+  ansible.builtin.apt:
     update_cache: yes
     name: "{{ item }}"
   loop:
     - docker-ce
     - docker-ce-cli
     - containerd.io
+
+- name: Install docker-py
+  ansible.builtin.pip:
+    name: docker-py
 
 - name: Install Docker Compose
   ansible.builtin.get_url:
