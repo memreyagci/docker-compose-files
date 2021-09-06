@@ -1,0 +1,11 @@
+---
+
+- name: Mount block-storage device
+  ansible.posix.mount:
+    path: /mnt/blockstorage
+    src: /dev/vdb1
+    fstype: ext4
+    opts: defaults,noatime,nofail
+    dump: 0
+    passno: 0
+    state: mounted

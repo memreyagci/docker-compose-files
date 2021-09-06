@@ -1,0 +1,15 @@
+---
+
+- name: Copy backup-docker-volumes.sh to /root
+  ansible.builtin.copy:
+    src: backup-docker-volumes.sh
+    dest: /root
+
+- name: Create a cronjob that takes a backup of Docker volumes.
+  ansible.builtin.cron:
+    name: "Backup Docker volumes."
+    minute: "0"
+    hour: "3"
+    weekday: "0,3"
+    job: /root/backup-docker-volumes.sh
+    user: root
