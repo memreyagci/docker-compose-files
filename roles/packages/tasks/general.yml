@@ -11,6 +11,11 @@
     name: apt-transport-https
     state: present
 
+- name: Install acl
+  apt:
+    name: acl
+    state: present
+
 - name: Install ca-certificates
   apt:
     name: ca-certificates
