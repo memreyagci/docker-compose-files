@@ -1,0 +1,15 @@
+---
+
+- hosts: prod_servers
+  remote_user: ansible
+  become: yes
+  become_method: sudo
+
+  roles:
+    - mount
+    - packages
+    - users
+    - role: dotfiles
+      become_user: "{{ USER.NAME }}"
+    - containers
+    - cronjobs
