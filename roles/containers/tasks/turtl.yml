@@ -1,9 +1,16 @@
 ---
 
+- name: Clone a turtl/server repository
+  git:
+    repo: https://github.com/turtl/server.git
+    dest: /tmp/turtl
+    clone: yes
+    update: yes
+
 - name: Build an image for Turtl
   community.docker.docker_image:
     build:
-      path: turtl
+      path: /tmp/turtl
     name: 'turtl/server'
     source: build
 
@@ -15,7 +22,7 @@
     restart_policy: unless-stopped
     labels:
       traefik.enable: "true"
-      traefik.http.routers.turtl-server.rule: "Host(`{{ TURTL_DOMAIN }}`)"
+      traefik.http.routers.turtl-server.rule: "Host(`{{ TURTL.DOMAIN }}`)"
       traefik.http.routers.turtl-server.entrypoints: "websecure"
       traefik.http.routers.turtl-server.tls.certresolver: "myresolver"
     env:
@@ -23,9 +30,9 @@
       TURTL_DB_PORT: "5432"
       TURTL_DB_DATABASE: turtl
       TURTL_DB_USER: turtl
-      TURTL_DB_PASSWORD: "{{ TURTL_DB_PASSWORD }}"
-      TURTL_APP_SECURE_HASH_SALT: "{{ TURTL_APP_SECURE_HASH_SALT }}"
-      TURTL_APP_API_URL: "{{ TURTL_DOMAIN }}"
+      TURTL_DB_PASSWORD: "{{ TURTL.DB_PASSWORD }}"
+      TURTL_APP_SECURE_HASH_SALT: "{{ TURTL.APP_SECURE_HASH_SALT }}"
+      TURTL_APP_API_URL: "{{ TURTL.DOMAIN }}"
 
 - name: Create a PostgreSQL container for Turtl
   community.docker.docker_container:
@@ -35,6 +42,6 @@
     volumes:
       - "turtl:/var/lib/postgresql/"
     env:
-      POSTGRES_PASSWORD: "{{ TURTL_DB_PASSWORD }}"
+      POSTGRES_PASSWORD: "{{ TURTL.DB_PASSWORD }}"
       POSTGRES_USER: turtl
       POSTGRES_DB: turtl
