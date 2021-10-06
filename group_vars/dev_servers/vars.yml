@@ -1,0 +1,21 @@
+---
+
+cert:
+  email: "{{ vault_cert['email'] }}"
+
+baikal:
+  domain: "{{ vault_baikal['domain'] }}"
+domain: "{{ vault_domain }}"
+ghost:
+  domain: "{{ vault_ghost['domain'] }}"
+  domain_non_www: "{{ vault_ghost['domain_non_www'] }}"
+url:
+  github: "{{ vault_url['github'] }}"
+  linkedin: "{{ vault_url['linkedin'] }}"
+vaultwarden:
+  domain: "{{ vault_vaultwarden['domain'] }}"
+  admin_token: "{{ vault_vaultwarden['admin_token'] }}"
+turtl:
+  domain: "{{ vault_turtl['domain'] }}"
+  db_password: "{{ vault_turtl['db_password'] }}"
+  app_secure_hash_salt: "{{ vault_turtl['app_secure_hash_salt'] }}"
