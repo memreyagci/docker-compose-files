@@ -1,7 +1,7 @@
 ---
 
 - hosts: dev_servers
-  remote_user: ansible
+  remote_user: "{{ user.name }}"
   become: yes
   become_method: sudo
 
@@ -9,7 +9,8 @@
     - mount
     - packages
     - users
-    - role: dotfiles
-      become_user: "{{ USER.NAME }}"
+    - dotfiles
+    - restore
     - containers
     - cronjobs
+    - nginx
