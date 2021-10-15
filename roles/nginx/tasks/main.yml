@@ -1,0 +1,32 @@
+---
+
+- name: Generate nginx configuration files from templates
+  ansible.builtin.template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+  with_items:
+    - { src: "baikal.conf.j2",      dest: "/etc/nginx/conf.d/baikal.conf" }
+    - { src: "ghost.conf.j2",       dest: "/etc/nginx/conf.d/ghost.conf" }
+    - { src: "turtl.conf.j2",       dest: "/etc/nginx/conf.d/turtl.conf" }
+    - { src: "vaultwarden.conf.j2", dest: "/etc/nginx/conf.d/vaultwarden.conf" }
+    - { src: "umami.conf.j2", dest: "/etc/nginx/conf.d/umami.conf" }
+
+- name: Stop Nginx for certbot to be able to obtain certificates
+  ansible.builtin.service:
+    name: nginx
+    state: stopped
+
+- name: Obtain SSL certificates
+  command: "{{ item }}"
+  loop:
+    - "sudo certbot certonly -m {{ cert.email }} -d {{ baikal.domain }} --standalone --agree-tos --non-interactive"
+    - "sudo certbot certonly -m {{ cert.email }} -d {{ ghost.domain }} --standalone --agree-tos --non-interactive"
+    - "sudo certbot certonly -m {{ cert.email }} -d {{ turtl.domain }} --standalone --agree-tos --non-interactive"
+    - "sudo certbot certonly -m {{ cert.email }} -d {{ vaultwarden.domain }} --standalone --agree-tos --non-interactive"
+    - "sudo certbot certonly -m {{ cert.email }} -d {{ umami.domain }} --standalone --agree-tos --non-interactive"
+
+- name: Enable & start Nginx service
+  ansible.builtin.service:
+    name: nginx
+    enabled: yes
+    state: started
