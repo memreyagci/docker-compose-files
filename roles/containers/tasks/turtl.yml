@@ -16,32 +16,29 @@
 
 - name: Create a Turtl container
   community.docker.docker_container:
-    name: 'turtl-server'
+    name: 'turtl_server'
     image: 'turtl/server'
     recreate: true
     restart_policy: unless-stopped
-    labels:
-      traefik.enable: "true"
-      traefik.http.routers.turtl-server.rule: "Host(`{{ TURTL.DOMAIN }}`)"
-      traefik.http.routers.turtl-server.entrypoints: "websecure"
-      traefik.http.routers.turtl-server.tls.certresolver: "myresolver"
+    ports:
+      - "8040:8181"
     env:
       TURTL_DB_HOST: postgres-db
       TURTL_DB_PORT: "5432"
       TURTL_DB_DATABASE: turtl
       TURTL_DB_USER: turtl
-      TURTL_DB_PASSWORD: "{{ TURTL.DB_PASSWORD }}"
-      TURTL_APP_SECURE_HASH_SALT: "{{ TURTL.APP_SECURE_HASH_SALT }}"
-      TURTL_APP_API_URL: "{{ TURTL.DOMAIN }}"
+      TURTL_DB_PASSWORD: "{{ turtl.db_password }}"
+      TURTL_APP_SECURE_HASH_SALT: "{{ turtl.app_secure_hash_salt }}"
+      TURTL_APP_API_URL: "{{ turtl.domain }}"
 
 - name: Create a PostgreSQL container for Turtl
   community.docker.docker_container:
-    name: 'turtl-db'
+    name: 'turtl_db'
     image: 'postgres:11-alpine'
     recreate: true
     volumes:
       - "turtl:/var/lib/postgresql/"
     env:
-      POSTGRES_PASSWORD: "{{ TURTL.DB_PASSWORD }}"
+      POSTGRES_PASSWORD: "{{ turtl.db_password }}"
       POSTGRES_USER: turtl
       POSTGRES_DB: turtl

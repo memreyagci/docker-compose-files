@@ -1,3 +1,0 @@
-[submodule "turtl"]
-	path = roles/containers/files/turtl
-	url = https://github.com/turtl/server

@@ -1,0 +1,12 @@
+---
+
+- name: Copy docker_volumes_backup.tar to /tmp
+  ansible.builtin.copy:
+    src: docker_volumes_backup.tar
+    dest: /tmp
+
+- name: Unarchive docker_volumes_backup.tar
+  ansible.builtin.unarchive:
+    remote_src: yes
+    src: /tmp/docker_volumes_backup.tar
+    dest: /var/lib/docker/volumes/

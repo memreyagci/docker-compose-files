@@ -1,9 +1,50 @@
 ---
 
 - include: "{{ item }}"
-  loop:
-    - traefik.yml
-    - baikal.yml
-    - ghost.yml
-    - vaultwarden.yml
+  with_items:
     - turtl.yml
+    - umami.yml
+
+- name: Create a Baikal container
+  community.docker.docker_container:
+    name: 'baikal'
+    image: 'ckulka/baikal:latest'
+    recreate: true
+    restart_policy: unless-stopped
+    ports:
+      - "8020:80"
+    volumes:
+      - "baikal_config:/var/www/baikal/config"
+      - "baikal_data:/var/www/baikal/Specific"
+
+- name: Create a Ghost container
+  community.docker.docker_container:
+    name: 'ghost'
+    image: 'ghost'
+    recreate: true
+    restart_policy: unless-stopped
+    ports:
+      - "8030:2368"
+    volumes:
+      - "ghost:/var/lib/ghost/content"
+    env:
+      url: "https://{{ ghost.domain }}"
+
+- name: Create a Vaultwarden container
+  community.docker.docker_container:
+    name: 'vaultwarden'
+    image: 'vaultwarden/server:latest'
+    recreate: true
+    restart_policy: unless-stopped
+    ports:
+      - "8010:80"
+    volumes:
+      - "vaultwarden:/data/"
+    env:
+      ADMIN_TOKEN: "{{ vaultwarden.admin_token }}"
+
+- name: Enable & start Docker service
+  ansible.builtin.service:
+    name: docker
+    enabled: yes
+    state: started
