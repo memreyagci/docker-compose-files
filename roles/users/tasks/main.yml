@@ -1,9 +1,9 @@
 ---
 
-- name: Add user "{{ USER.NAME }}" with bash as the default shell, and groups of sudo and docker
+- name: Add user "{{ user.name }}" with bash as the default shell, and groups of sudo and docker
   ansible.builtin.user:
-    name: "{{ USER.NAME }}"
-    password: "{{ USER.PASS | password_hash('sha512') }}"
+    name: "{{ user.name }}"
+    password: "{{ user.pass | password_hash('sha512') }}"
     create_home: yes
     shell: /bin/bash
     groups: sudo,docker
