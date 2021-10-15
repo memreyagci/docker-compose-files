@@ -1,18 +1,20 @@
 ---
 
 - name: Clone dotfiles repository
+  become: no
   ansible.builtin.git:
     repo: https://github.com/memreyagci/dotfiles.git
-    dest: "/home/{{ USER.NAME }}/dotfiles"
+    dest: "/home/{{ user.name }}/dotfiles"
     clone: yes
     update: yes
 
 - name: Deploy dotfiles
+  become: no
   stow:
     state: present
     package: "{{ item }}"
-    dir: "/home/{{ USER.NAME }}/dotfiles"
-    target: "/home/{{ USER.NAME }}"
+    dir: "/home/{{ user.name }}/dotfiles"
+    target: "/home/{{ user.name }}"
   with_items:
     - neovim
     - bash
