@@ -20,9 +20,12 @@
     - docker-ce-cli
     - containerd.io
 
-- name: Install docker-py
+- name: Install docker-compose & docker via PIP
   ansible.builtin.pip:
-    name: docker-py
+    name: "{{ item }}"
+  loop:
+    - docker
+    - docker-compose
 
 - name: Install Docker Compose
   ansible.builtin.get_url:
@@ -33,9 +36,3 @@
   ansible.builtin.file:
     path: /usr/local/bin/docker-compose
     mode: +x
-
-      #- name: Create symbolic link 
-      #  file:
-      #    src: /usr/local/bin/docker-compose
-      #    dest: /usr/bin/docker-compose
-      #    state: link

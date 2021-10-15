@@ -1,6 +1,27 @@
 ---
 
-- include: "{{ item }}"
-  loop:
-    - general.yml
-    - docker.yml
+- name: Update & upgrade packages
+  become: true
+  apt:
+    update_cache: yes
+    upgrade: yes
+
+- name: Install necessary packages
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - apt-transport-https
+    - acl
+    - ca-certificates
+    - curl
+    - gnupg
+    - lsb-release
+    - neovim
+    - nginx
+    - python3-certbot-nginx
+    - python3-pip
+    - rsync
+    - stow
+
+- include: docker.yml
