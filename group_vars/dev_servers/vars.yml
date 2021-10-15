@@ -5,17 +5,41 @@ cert:
 
 baikal:
   domain: "{{ vault_baikal['domain'] }}"
+
 domain: "{{ vault_domain }}"
+
 ghost:
   domain: "{{ vault_ghost['domain'] }}"
   domain_non_www: "{{ vault_ghost['domain_non_www'] }}"
+  domain_old: ""
+  domain_old_non_www: ""
+
 url:
   github: "{{ vault_url['github'] }}"
   linkedin: "{{ vault_url['linkedin'] }}"
+
 vaultwarden:
   domain: "{{ vault_vaultwarden['domain'] }}"
   admin_token: "{{ vault_vaultwarden['admin_token'] }}"
+
 turtl:
   domain: "{{ vault_turtl['domain'] }}"
   db_password: "{{ vault_turtl['db_password'] }}"
   app_secure_hash_salt: "{{ vault_turtl['app_secure_hash_salt'] }}"
+
+plausible:
+  domain: "{{ vault_plausible['domain'] }}"
+  db_password: "{{ vault_plausible['db_password'] }}"
+  admin:
+    email: "{{ vault_plausible['admin']['email'] }}"
+    name: "{{ vault_plausible['admin']['name'] }}"
+    pass: "{{ vault_plausible['admin']['pass'] }}"
+  base_url: "{{ vault_plausible['base_url'] }}"
+  secret_key_base: "{{ vault_plausible['secret_key_base'] }}"
+
+umami:
+  domain: "{{ vault_umami['domain'] }}"
+  db:
+    user: "{{ vault_umami['db']['user'] }}"
+    password: "{{ vault_umami['db']['password'] }}"
+  hash_salt: "{{ vault_umami['hash_salt'] }}"
